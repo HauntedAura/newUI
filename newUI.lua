@@ -243,7 +243,7 @@ function Library:CreateLib()
 		if gpe then return end
 
 		if input.UserInputType == Enum.UserInputType.MouseButton1 and GUI.closeHover then
-			Library:notify(5, "UI CLOSED", "Thank you for using flxzzr hub.")
+			GUI["1"]:Destroy()
 		end
 	end)
 
