@@ -204,153 +204,101 @@ end
 
 local library = {}
 local tab = {}
+local section = {}
 
 library.__index = library
 tab.__index = tab
+section.__index = section
 
 function library.new(data)
-
+	
 	local title = data.title or "flxzzr"
-
-	local container = {
-		utility:Create("ScreenGui", {
-			Name = title,
-			IgnoreGuiInset = true,
-			ResetOnSpawn = false,
-			ZIndexBehavior = Enum.ZIndexBehavior.Global,
-			Parent = run:IsStudio() and player:WaitForChild("PlayerGui") or CoreGui
+	
+	local container = utility:Create("ScreenGui", {
+		Name = title,
+		Parent = player:WaitForChild("PlayerGui")
+	}, {
+		utility:Create("ImageLabel", {
+			Name = "Main",
+			Position = UDim2.new(0.25, 0, 0.052435593, 0),
+			BackgroundTransparency = 1,
+			Size = UDim2.new(0, 500, 0, 407),
+			Image = "rbxassetid://107571530410271",
+			ImageColor3 = themes.Background,
+			ScaleType = Enum.ScaleType.Slice,
+			SliceCenter = Rect.new(4, 4, 296, 296),
 		}, {
-			utility:Create("Frame", {
-				ZIndex = 2,
-				AnchorPoint = Vector2.new(0, 1),
-				BorderSizePixel = 0,
-				BackgroundColor3 = themes.Background,
-				Size = UDim2.new(0, 500, 0, 407),
-				Position = UDim2.new(0.35294, 0, 0.75, 0),
-				BorderColor3 = themes.Background,
-				Name = "BG",
+			utility:Create("ImageLabel", {
+				Name = "Glow",
+				ZIndex = 0,
+				BackgroundTransparency = 1,
+				Position = UDim2.new(0, -10, 0, -10),
+				Size = UDim2.new(1, 20, 1, 20),
+				Image = "rbxassetid://84674677057008",
+				ImageColor3 = themes.Glow,
+			}),
+			
+			utility:Create("ImageLabel", {
+				Name = "Tabs",
+				BackgroundTransparency = 1,
+				Position = UDim2.new(0, 0, 0, 38),
+				Size = UDim2.new(0, 126, 1, -38),
+				Image = "rbxassetid://96173951457280",
+				ImageColor3 = themes.DarkContrast,
+				ScaleType = Enum.ScaleType.Slice,
+				SliceCenter = Rect.new(4, 4, 296, 296),
 			}, {
-				utility:Create("UICorner", {
-					CornerRadius = UDim.new(0, 4),
-				}),
-
-				utility:Create("Frame", {
-					ZIndex = 3,
-					BorderSizePixel = 0,
-					BackgroundColor3 = themes.DarkContrast,
-					Size = UDim2.new(0, 150, 1, -30),
-					Position = UDim2.new(0, 0, 0, 30),
-					BorderColor3 = Color3.fromRGB(0, 0, 0),
-					Name = "SB",
-				}, {
-
-					utility:Create("UICorner", {
-						CornerRadius = UDim.new(0, 4),
-
-					}),
-
-					utility:Create("Frame", {
-						ZIndex = 3,
-						BorderSizePixel = 0,
-						BackgroundColor3 = themes.DarkContrast,
-						AnchorPoint = Vector2.new(1, 0),
-						Size = UDim2.new(0.5, 0, 1, 0),
-						Position = UDim2.new(1, 0, 0, 0),
-						BorderColor3 = Color3.fromRGB(0, 0, 0),
-						Name = "SB_EXTENSION",
-					})
-
-				}),
-
-				utility:Create("Frame", {
-					ZIndex = 4,
-					BorderSizePixel = 0,
-					BackgroundColor3 = Color3.fromRGB(255, 255, 255),
-					Size = UDim2.new(1, 0, 1, 0),
-					BorderColor3 = Color3.fromRGB(0, 0, 0),
-					Name = "Navigation",
+				utility:Create("ScrollingFrame", {
+					Name = "Tabs_Container",
+					Active = true,
 					BackgroundTransparency = 1,
+					Position = UDim2.new(0, 0, 0, 10),
+					Size = UDim2.new(1, 0, 1, -20),
+					CanvasSize = UDim2.new(0, 0, 0, 314),
+					ScrollBarThickness = 0,
 				}, {
 					utility:Create("UIListLayout", {
-						HorizontalAlignment = Enum.HorizontalAlignment.Center,
-						Padding = UDim.new(0, 8),
 						SortOrder = Enum.SortOrder.LayoutOrder,
-					}),
-					utility:Create("UIPadding", {
-						PaddingTop = UDim.new(0, 8),
-						PaddingLeft = UDim.new(0, 35),
+						Padding = UDim.new(0, 10),
 					})
-				}),
-
-				utility:Create("Frame", {
-					ZIndex = 5,
-					BorderSizePixel = 0,
-					BackgroundColor3 = themes.Accent,
-					Size = UDim2.new(1, 0, 0.075, 0),
-					BorderColor3 = Color3.fromRGB(0, 0, 0),
-					Name = "TB",
-				}, {
-					utility:Create("UICorner", {
-						CornerRadius = UDim.new(0, 4),
-					}),
-					utility:Create("Frame", {
-						ZIndex = 5,
-						BorderSizePixel = 0,
-						BackgroundColor3 = themes.Accent,
-						AnchorPoint = Vector2.new(0, 1),
-						Size = UDim2.new(1, 0, 0.5, 0),
-						Position = UDim2.new(0, 0, 1, 0),
-						BorderColor3 = Color3.fromRGB(0, 0, 0),
-						Name = "TB_EXTENSION",
-					}),
-					utility:Create("TextLabel", {
-						ZIndex = 6,
-						BorderSizePixel = 0,
-						TextSize = 14,
-						TextScaled = true,
-						TextXAlignment = Enum.TextXAlignment.Left,
-						BackgroundColor3 = Color3.fromRGB(255, 255, 255),
-						FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Bold, Enum.FontStyle.Normal),
-						TextColor3 = themes.TextColor,
-						BackgroundTransparency = 1,
-						Size = UDim2.new(0.5, 0, 1, 0),
-						BorderColor3 = Color3.fromRGB(0, 0, 0),
-						Text = title,
-						Name = "TITLE",
-					}, {
-						utility:Create("UITextSizeConstraint", {
-							MaxTextSize = 14,
-						}),
-						utility:Create("UIPadding", {
-							PaddingLeft = UDim.new(0, 8),
-						})
-					})
-				}),
-				utility:Create("ImageLabel", {
-					BorderSizePixel = 0,
-					BackgroundColor3 = Color3.fromRGB(255, 255, 255),
-					ImageColor3 = themes.Glow,
-					AnchorPoint = Vector2.new(0.5, 0.5),
-					Image = "rbxassetid://79305839788405",
-					Size = UDim2.new(1.25, 0, 1.25, 0),
-					BorderColor3 = Color3.fromRGB(0, 0, 0),
+				})
+			}),
+			
+			utility:Create("ImageLabel", {
+				Name = "TopBar",
+				BackgroundTransparency = 1,
+				Size = UDim2.new(1, 0, 0, 38),
+				Image = "rbxassetid://136855631686492",
+				ImageColor3 = themes.Accent,
+				ScaleType = Enum.ScaleType.Slice,
+				SliceCenter = Rect.new(4, 4, 296, 296),
+			}, {
+				utility:Create("TextLabel", {
+					Name = "Title",
+					AnchorPoint = Vector2.new(0, 0.5),
 					BackgroundTransparency = 1,
-					Name = "Glow",
-					Position = UDim2.new(0.5, 0, 0.5, 0),
-				}),
-				utility:Create("Frame", {
-					ZIndex = 3,
-					BorderSizePixel = 0,
-					BackgroundColor3 = Color3.fromRGB(255, 255, 255),
-					Size = UDim2.new(1, -166, 1, -46),
-					Position = UDim2.new(0, 158, 0, 38),
-					BorderColor3 = Color3.fromRGB(0, 0, 0),
-					Name = "CO",
-					BackgroundTransparency = 1,
+					Position = UDim2.new(0, 12, 0, 19),
+					Size = UDim2.new(1, -46, 0, 16),
+					Font = Enum.Font.GothamBold,
+					Text = title,
+					TextColor3 = Color3.fromRGB(255, 255, 255),
+					TextSize = 14,
+					TextXAlignment = Enum.TextXAlignment.Left,
 				})
 			})
+			
 		})
-	}
+	})
+	
+	utility:InitializeKeybind()
+	utility:DraggingEnabled(container.Main.TopBar, container.Main)
+
+	return setmetatable({
+		container = container,
+		tabsContainer = container.Main.Tabs.Tabs_Container,
+		tabs = {}
+	}, library)
+	
 end
 
 function library.setTitle(library, title)
@@ -360,72 +308,61 @@ function library.setTitle(library, title)
 end
 
 function tab.new(library, title, icon)
-
-	local button = {
-		utility:Create("TextButton", {
-			Name = title,
-			Parent = library.Navigation,
+	local button = utility:Create("TextButton", {
+		Name = title,
+		Parent = library.tabsContainer,
+		BackgroundTransparency = 1,
+		Size = UDim2.new(1, 0, 0, 26),
+		ZIndex = 3,
+		AutoButtonColor = false,
+		Font = Enum.Font.Gotham,
+		Text = "",
+		TextColor3 = themes.TextColor,
+		TextSize = 14,
+	}, {
+		utility:Create("TextLabel", {
+			Name = "Title",
+			AnchorPoint = Vector2.new(0, 0.5),
 			BackgroundTransparency = 1,
-			BorderSizePixel = 0,
-			Size = UDim2.new(1, 0, 0, 30),
+			Position = UDim2.new(0, 40, 0.5, 0),
+			Size = UDim2.new(0, 76, 1, 0),
 			ZIndex = 3,
-			AutoButtonColor = false,
 			Font = Enum.Font.Gotham,
-			Text = "",
-			TextSize = 14
-		}, {
-			utility:Create("TextLabel", {
-				Name = "Title",
-				AnchorPoint = Vector2.new(0, 0.5),
-				BackgroundTransparency = 1,
-				Position = UDim2.new(0, 40, 0.5, 0),
-				Size = UDim2.new(0, 56, 1, 0),
-				ZIndex = 3,
-				Font = Enum.Font.Gotham,
-				Text = title,
-				TextColor3 = themes.TextColor,
-				TextSize = 12,
-				TextTransparency = 0.65,
-				TextXAlignment = Enum.TextXAlignment.Left
-			}),
-			icon and utility:Create("ImageLabel", {
-				ZIndex = 5,
-				BorderSizePixel = 0,
-				BackgroundColor3 = Color3.fromRGB(255, 255, 255),
-				AnchorPoint = Vector2.new(1, 0.5),
-				Image = "http://www.roblox.com/asset/?id=" .. tostring(icon),
-				ImageTransparency = 0.75,
-				Size = UDim2.new(0, 16, 0, 16),
-				BorderColor3 = Color3.fromRGB(0, 0, 0),
-				BackgroundTransparency = 1,
-				Name = "ICON",
-				Position = UDim2.new(0, -8, 0.5, 0),
-			}) or {}
-		})
-	}
-	
-	local container = {
-		utility:Create("ScrollingFrame", {
-			ZIndex = 3,
-			BorderSizePixel = 0,
-			CanvasSize = UDim2.new(0, 0, 0, 0),
-			BackgroundColor3 = Color3.fromRGB(255, 255, 255),
-			Name = title,
-			Size = UDim2.new(1, 0, 1, 0),
-			ScrollBarImageColor3 = themes.DarkContrast,
-			BorderColor3 = Color3.fromRGB(0, 0, 0),
-			ScrollBarThickness = 1,
+			Text = title,
+			TextColor3 = themes.TextColor,
+			TextSize = 12,
+			TextTransparency = 0.65,
+			TextXAlignment = Enum.TextXAlignment.Left,
+		}),
+		icon and utility:Create("ImageLabel", {
+			Name = "Icon",
+			AnchorPoint = Vector2.new(0, 0.5),
 			BackgroundTransparency = 1,
-			Visible = false,
-			AutomaticCanvasSize = Enum.AutomaticSize.Y,
-		}, {
-			utility:Create("UIListLayout", {
-				HorizontalAlignment = Enum.HorizontalAlignment.Center;
-				Padding = UDim.new(0, 8);
-				SortOrder = Enum.SortOrder.LayoutOrder;
-			})
+			Position = UDim2.new(0, 12, 0.5, 0),
+			Size = UDim2.new(0, 16, 0, 16),
+			Image = "http://www.roblox.com/asset/?id=" .. tostring(icon),
+			ImageColor3 = themes.TextColor,
+			ImageTransparency = 0.65,
+		}) or {}
+	})
+	
+	local container = utility:Create("ScrollingFrame", {
+		Name = "Tab",
+		Parent = library.container.Main,
+		Active = true,
+		BackgroundTransparency = 1,
+		Position = UDim2.new(0, 134, 0, 46),
+		Size = UDim2.new(1, -142, 1, -54),
+		CanvasSize = UDim2.new(0, 0, 0, 466),
+		ScrollBarThickness = 3,
+		ScrollBarImageColor3 = themes.DarkContrast,
+		Visible = false,
+	}, {
+		utility:Create("UIListLayout", {
+			SortOrder = Enum.SortOrder.LayoutOrder,
+			Padding = UDim.new(0, 10),
 		})
-	}
+	})
 	
 	return setmetatable({
 		library = library,
@@ -433,7 +370,109 @@ function tab.new(library, title, icon)
 		button = button,
 		sections = {}
 	}, tab)
+end
 
+function section.new(tab, title)
+	
+	local container = utility:Create("ImageLabel", {
+		Name = title,
+		Parent = tab.container,
+		BackgroundTransparency = 1,
+		Size = UDim2.new(1, -10, 0, 28),
+		Image = "rbxassetid://76828361147692",
+		ImageColor3 = Color3.fromRGB(20, 20, 20),
+		ScaleType = Enum.ScaleType.Slice,
+		SliceCenter = Rect.new(4, 4, 296, 296),
+		ClipsDescendants = true,
+		ZIndex = 2,
+	}, {
+		utility:Create("Frame", {
+			Name = "Container",
+			Active = true,
+			BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+			BackgroundTransparency = 1,
+			Position = UDim2.new(0, 8, 0, 8),
+			Size = UDim2.new(1, -16, 1, -16),
+		}, {
+			utility:Create("TextLabel", {
+				Name = "Title",
+				BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+				BackgroundTransparency = 1,
+				Size = UDim2.new(1, 0, 0, 20),
+				ZIndex = 2,
+				Font = Enum.Font.GothamSemibold,
+				TextColor3 = Color3.fromRGB(255, 255, 255),
+				TextSize = 12,
+				TextXAlignment = Enum.TextXAlignment.Left,
+			}),
+			utility:Create("UIPadding", {
+				PaddingLeft = UDim.new(0, 4)
+			})
+		}),
+	})
+	
+	return setmetatable({
+		tab = tab,
+		container = container.Container,
+		colorpickers = {},
+		modules = {},
+		binds = {},
+		lists = {},
+	}, section)
+end
+
+function library:addTab(data)
+	local title = data.title or "Tab"
+	local icon = data.icon
+
+	local newTab = tab.new(self, title, icon)
+	local button = newTab.button
+
+	table.insert(self.tabs, newTab)
+	self:reorderTabButtons()
+
+	button.MouseButton1Click:Connect(function()
+		self:SelectTab({
+			tab = newTab,
+			toggle = true
+		})
+	end)
+
+	return newTab
+end
+
+
+function tab:setOrderPos(newPos)
+	local libraryTab = self.library.tabs
+
+	if (newPos > #libraryTab) then
+		return error("newPos exceeds number of tabs available")
+	end
+
+	local foundi = table.find(libraryTab, self)
+	if (foundi) then
+		table.remove(libraryTab, foundi)
+	end
+
+	table.insert(libraryTab, newPos, self)
+
+	self.library:reorderTabButtons()
+end
+
+function tab:addSection(data)
+	local title = data.title or "Section"
+
+	local newSection = section.new(self, title)
+
+	self.sections[#self.sections + 1] = newSection
+
+	return newSection
+end
+
+function library:reorderTabButtons()
+	for i, tab in ipairs(self.tabs) do
+		tab.button.LayoutOrder = i
+	end
 end
 
 function library:setTheme(data)
@@ -445,7 +484,7 @@ function library:setTheme(data)
 	for property, objectss in pairs(objects[theme]) do
 		for i, object in pairs(objectss) do
 			if not object.Parent or (object.Name == "Button" and object.Parent.Name == "ColorPicker") then
-				objectss[i] = nil
+				objectss[i] = nil -- i can do this because weak tables :D
 			else
 				object[property] = color3
 			end
@@ -453,24 +492,180 @@ function library:setTheme(data)
 	end
 end
 
-function library:addTab(data)
-	local title = data.title or "Page"
-	local icon = data.icon
+function library:toggle()
 
-	local newTab = tab.new(self, title, icon)
-	local button = newTab.button
+	if self.toggling then
+		return
+	end
 
-	table.insert(self.tabs, newTab)
-	self:reorderPageButtons()
+	self.toggling = true
 
-	button.MouseButton1Click:Connect(function()
-		self:SelectPage({
-			page = newTab,
-			toggle = true
-		})
-	end)
+	local container = self.container.Main
+	local topbar = container.TopBar
 
-	return newTab
+	if self.position then
+		utility:Tween(container, {
+			Size = UDim2.new(0, 500, 0, 428),
+			Position = self.position
+		}, 0.2)
+		wait(0.2)
+
+		utility:Tween(topbar, {Size = UDim2.new(1, 0, 0, 38)}, 0.2)
+		wait(0.2)
+
+		container.ClipsDescendants = false
+		self.position = nil
+	else
+		self.position = container.Position
+		container.ClipsDescendants = true
+
+		utility:Tween(topbar, {Size = UDim2.new(1, 0, 1, 0)}, 0.2)
+		wait(0.2)
+
+		utility:Tween(container, {
+			Size = UDim2.new(0, 500, 0, 0),
+			Position = self.position + UDim2.new(0, 0, 0, 428)
+		}, 0.2)
+		wait(0.2)
+	end
+
+	self.toggling = false
+end
+
+function library:SelectTab(data)
+	local selectedTab = data.tab
+	local toggle = data.toggle
+
+	if toggle and self.focusedtab == tab then -- already selected
+		return
+	end
+
+	local button = selectedTab.button
+
+	if toggle then
+		-- tab button
+		button.Title.TextTransparency = 0
+		button.Title.Font = Enum.Font.GothamSemibold
+
+		if button:FindFirstChild("Icon") then
+			button.Icon.ImageTransparency = 0
+		end
+
+		-- update selected tab
+		local focusedtab = self.focusedtab
+		self.focusedtab = selectedTab
+
+		if focusedtab then
+			self:SelectTab({
+				tab = focusedtab
+			})
+		end
+
+		-- sections
+		local existingSections = focusedtab and #focusedtab.sections or 0
+		local sectionsRequired = #selectedTab.sections - existingSections
+
+		selectedTab:Resize()
+
+		for i = 1, #selectedTab.sections do
+			local tabSection = selectedTab.sections[i]
+			tabSection.container.Parent.ImageTransparency = 0
+		end
+		if sectionsRequired < 0 then -- "hides" some sections
+			for i = existingSections, #selectedTab.sections + 1, -1 do
+				local tabSection = focusedtab.sections[i].container.Parent
+
+				utility:Tween(tabSection, {ImageTransparency = 1}, 0.1)
+			end
+		end
+
+		wait(0.1)
+		selectedTab.container.Visible = true
+
+		if focusedtab then
+			focusedtab.container.Visible = false
+		end
+
+		if sectionsRequired > 0 then -- "creates" more section
+			for i = existingSections + 1, #selectedTab.sections do
+				local tabSection = selectedTab.sections[i].container.Parent
+
+				tabSection.ImageTransparency = 1
+				utility:Tween(tabSection, {ImageTransparency = 0}, 0.05)
+			end
+		end
+
+		wait(0.05)
+
+		for i = 1, #selectedTab.sections do
+			local tabSection = selectedTab.sections[i]
+			utility:Tween(tabSection.container.Title, {TextTransparency = 0}, 0.1)
+			tabSection:Resize(true)
+
+			wait(0.05)
+		end
+
+		wait(0.05)
+		selectedTab:Resize(true)
+	else
+		-- tab button
+		button.Title.Font = Enum.Font.Gotham
+		button.Title.TextTransparency = 0.65
+
+		if button:FindFirstChild("Icon") then
+			button.Icon.ImageTransparency = 0.65
+		end
+
+		-- sections
+		for i = 1, #selectedTab.sections do
+			local tabSection = selectedTab.sections[i]
+			utility:Tween(tabSection.container.Parent, {Size = UDim2.new(1, -10, 0, 28)}, 0.1)
+			utility:Tween(tabSection.container.Title, {TextTransparency = 1}, 0.1)
+		end
+
+		wait(0.1)
+
+		selectedTab.lastPosition = selectedTab.container.CanvasPosition.Y
+		selectedTab:Resize()
+	end
+end
+
+function tab:Resize(scroll)
+	local padding = 10
+	local size = 0
+
+	for i = 1, #self.sections do
+		local tabSection = self.sections[i]
+		size = size + tabSection.container.Parent.AbsoluteSize.Y + padding
+	end
+
+	self.container.CanvasSize = UDim2.new(0, 0, 0, size)
+	self.container.ScrollBarImageTransparency = size > self.container.AbsoluteSize.Y
+
+	if scroll then
+		utility:Tween(self.container, {CanvasPosition = Vector2.new(0, self.lastPosition or 0)}, 0.2)
+	end
+end
+
+function section:Resize(smooth)
+
+	if self.tab.library.focusedtab ~= self.tab then
+		return
+	end
+
+	local padding = 4
+	local size = (4 * padding) + self.container.Title.AbsoluteSize.Y -- offset
+
+	for i, module in pairs(self.modules) do
+		size = size + module.Instance.AbsoluteSize.Y + padding
+	end
+
+	if smooth then
+		utility:Tween(self.container.Parent, {Size = UDim2.new(1, -10, 0, size)}, 0.05)
+	else
+		self.container.Parent.Size = UDim2.new(1, -10, 0, size)
+		self.tab:Resize()
+	end
 end
 
 return library
