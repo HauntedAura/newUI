@@ -177,9 +177,8 @@ function UI.CreateLib(libName, themeList)
 	local selectedTab 
 	libName = libName or "Library"
 	table.insert(UI, libName)
-	
 	for i,v in pairs(game.CoreGui:GetChildren()) do
-		if v:IsA("ScreenGui") and v.Name == LibName then
+		if v:IsA("ScreenGui") and v.Name == libName then
 			v:Destroy()
 		end
 	end
@@ -757,6 +756,9 @@ function UI.CreateLib(libName, themeList)
 			end
 			
 			function Elements:AddSlider(sname, min, max, default, callback)
+				
+				local SliderFunction = {}
+				
 				sname = sname or "Slider"
 				max = max or 500
 				min = min or 16
@@ -856,12 +858,12 @@ function UI.CreateLib(libName, themeList)
 				Value.Text = default
 				Value.TextColor3 = themeList.TextColor
 				Value.TextSize = 12.000
-
+				
 				local ms = game.Players.LocalPlayer:GetMouse()
 				local uis = game:GetService("UserInputService")
 				local btn = Slider
 				
-								function SliderFunction:GetValue()
+				function SliderFunction:GetValue()
 					return tonumber(Value.Text)
 				end
 				
@@ -922,6 +924,8 @@ function UI.CreateLib(libName, themeList)
 						Value.TextColor3 = themeList.TextColor
 					end
 				end)()
+				
+				return SliderFunction
 				
 			end
 			
@@ -1116,7 +1120,7 @@ function UI.CreateLib(libName, themeList)
 					end)()
 					
 				end
-				
+				return DropFunction
 			end
 			
 			return Elements
