@@ -909,7 +909,7 @@ function UI.CreateLib(libName, themeList)
 				end)
 				
 				Value.FocusLost:Connect(function()
-					Utility:SetValue(tonumber(Value.Text))
+					SetValue(tonumber(Value.Text))
 				end)
 				
 				coroutine.wrap(function()
