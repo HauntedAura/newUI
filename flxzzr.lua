@@ -863,10 +863,6 @@ function UI.CreateLib(libName, themeList)
 				local uis = game:GetService("UserInputService")
 				local btn = Slider
 				
-				function SliderFunction:GetValue()
-					return tonumber(Value.Text)
-				end
-				
 				function SliderFunction:SetValue(v)
 
 					if v == nil then
@@ -887,6 +883,11 @@ function UI.CreateLib(libName, themeList)
 
 					callback(SliderFunction:GetValue())
 				end
+
+				function SliderFunction:GetValue()
+					return tonumber(Value.Text)
+				end
+
 				
 				SliderFunction:SetValue(default)
 				local Connection = nil
