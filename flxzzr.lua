@@ -51,12 +51,10 @@ function Utility:TweenObject(obj, properties, duration, ...)
 	tween:Create(obj, tweeninfo(duration, ...), properties):Play()
 end
 
-local toggleKey = "H"
-
 input.InputBegan:Connect(function(input, gpe)
 	if gpe then return end
 
-	if input.KeyCode == Enum.KeyCode[toggleKey] then
+	if input.KeyCode == Enum.KeyCode.H then
 		UI:ToggleUI()
 	end
 end)
