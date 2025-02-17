@@ -181,7 +181,7 @@ function UI.CreateLib(libName, themeList)
 	table.insert(UI, libName)
 	
 	for i,v in pairs(game.CoreGui:GetChildren()) do
-		if v:IsA("ScreenGui") and v.Name == libName then
+		if v:IsA("ScreenGui") and v.Name == LibName then
 			v:Destroy()
 		end
 	end
@@ -199,7 +199,7 @@ function UI.CreateLib(libName, themeList)
 
 	UI:DraggingEnabled(Topbar, Main)
 
-	GUI.Name = libName
+	GUI.Name = LibName
 	GUI.Parent = game.CoreGui
 	GUI.ResetOnSpawn = false
 
@@ -858,11 +858,19 @@ function UI.CreateLib(libName, themeList)
 				Value.Text = default
 				Value.TextColor3 = themeList.TextColor
 				Value.TextSize = 12.000
+
+				local ms = game.Players.LocalPlayer:GetMouse()
+				local uis = game:GetService("UserInputService")
+				local btn = Slider
 				
-				function Utility:SetValue(v)
+				local function GetValue()
+					return tonumber(Value.Text)
+				end
+				
+				local function SetValue(v)
 
 					if v == nil then
-						local percentage = math.clamp((mouse.X - SliderBack.AbsolutePosition.X) / (SliderBack.AbsoluteSize.X), 0, 1)
+						local percentage = math.clamp((ms.X - SliderBack.AbsolutePosition.X) / (SliderBack.AbsoluteSize.X), 0, 1)
 						local value = math.floor(((max - min) * percentage) + min)
 
 						Value.Text = tostring(value)
@@ -877,32 +885,27 @@ function UI.CreateLib(libName, themeList)
 						Fill.Size = UDim2.fromScale(((v - min) / (max - min)), 1)
 					end
 
-					callback(Utility:GetValue())
-				end
-
-				function Utility:GetValue()
-					return tonumber(Value.Text)
+					callback(GetValue())
 				end
 				
-				Utility:SetValue(default)
+				SetValue(default)
+				local Connection = nil
 				
-				local Connection
-				
-				Slider.MouseButton1Down:Connect(function()
-					
+				btn.MouseButton1Down:Connect(function()
 					if not Connection then
 						Connection = run.RenderStepped:Connect(function()
-							Utility:SetValue()
+							SetValue()
 						end)
 					end
-					
-					Slider.MouseLeave:Connect(function()
-						if Connection then Connection:Disconnect() end
-						Connection = nil
-					end)
+
 				end)
 				
-				Slider.MouseButton1Up:Connect(function()
+				btn.MouseButton1Up:Connect(function()
+					if Connection then Connection:Disconnect() end
+					Connection = nil
+				end)
+				
+				btn.MouseLeave:Connect(function()
 					if Connection then Connection:Disconnect() end
 					Connection = nil
 				end)
