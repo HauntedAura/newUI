@@ -132,7 +132,7 @@ function UI:ToggleUI()
 		Utility:TweenObject(game.CoreGui[LibName].Main, {Size = UDim2.new(0, 500, 0, 0)}, 0.2)
 		wait(0.15)
 		game.CoreGui[LibName].Main.Visible = false
-	else
+	elseif not game.CoreGui[LibName].Main.Visible then
 		game.CoreGui[LibName].Main.Visible = true
 		Utility:TweenObject(game.CoreGui[LibName].Main, {Size = UDim2.new(0, 500, 0, 350)}, 0.2)
 		wait(0.2)
