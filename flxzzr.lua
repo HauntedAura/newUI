@@ -167,21 +167,6 @@ function UI.CreateLib(libName, themeList)
 	local Title = Instance.new("TextLabel")
 	local UIListLayout = Instance.new("UIListLayout")
 	local Holder_2 = Instance.new("Frame")
-	
-	function UI:ToggleUI()
-		if Main.Visible == true then
-			Utility:TweenObject(Topbar, {Size = UDim2.new(1, 0, 1, 0)}, 0.2)
-			wait(0.2)
-			Utility:TweenObject(Main, {Size = UDim2.new(0, 500, 0, 0)}, 0.2)
-			wait(0.15)
-			Main.Visible = false
-		else
-			Main.Visible = true
-			Utility:TweenObject(Main, {Size = UDim2.new(0, 500, 0, 350)}, 0.2)
-			wait(0.2)
-			Utility:TweenObject(Topbar, {Size = UDim2.new(1, 0, 0, 30)}, 0.2)
-		end
-	end
 
 	UI:DraggingEnabled(Topbar, Main)
 
@@ -189,7 +174,18 @@ function UI.CreateLib(libName, themeList)
 		if gpe then return end
 
 		if input.KeyCode == Enum.KeyCode.H then
-			UI:ToggleUI()
+			if Main.Visible == true then
+				Utility:TweenObject(Topbar, {Size = UDim2.new(1, 0, 1, 0)}, 0.2)
+				wait(0.2)
+				Utility:TweenObject(Main, {Size = UDim2.new(0, 500, 0, 0)}, 0.2)
+				wait(0.15)
+				Main.Visible = false
+			else
+				Main.Visible = true
+				Utility:TweenObject(Main, {Size = UDim2.new(0, 500, 0, 350)}, 0.2)
+				wait(0.2)
+				Utility:TweenObject(Topbar, {Size = UDim2.new(1, 0, 0, 30)}, 0.2)
+			end
 		end
 	end)
 
