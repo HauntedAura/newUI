@@ -196,7 +196,7 @@ function UI.CreateLib(libName, themeList)
 
 	UI:DraggingEnabled(Topbar, Main)
 
-	GUI.Name = LibName
+	GUI.Name = libName
 	GUI.Parent = game.CoreGui
 	GUI.ResetOnSpawn = false
 
