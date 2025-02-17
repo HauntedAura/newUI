@@ -128,17 +128,17 @@ local SettingsT = {
 local LibName = "flxzzrlib"
 
 function UI:ToggleUI()
-	if game.Players.LocalPlayer:WaitForChild("PlayerGui")[LibName].Main.Visible then
-		Utility:TweenObject(game.Players.LocalPlayer:WaitForChild("PlayerGui")[LibName].Main.Topbar, {Size = UDim2.new(1, 0, 1, 0)}, 0.2)
+	if game.CoreGui[LibName].Main.Visible then
+		Utility:TweenObject(game.CoreGui[LibName].Main.Topbar, {Size = UDim2.new(1, 0, 1, 0)}, 0.2)
 		wait(0.2)
-		Utility:TweenObject(game.Players.LocalPlayer:WaitForChild("PlayerGui")[LibName].Main, {Size = UDim2.new(0, 500, 0, 0)}, 0.2)
+		Utility:TweenObject(game.CoreGui[LibName].Main, {Size = UDim2.new(0, 500, 0, 0)}, 0.2)
 		wait(0.15)
-		game.Players.LocalPlayer:WaitForChild("PlayerGui")[LibName].Main.Visible = false
+		game.CoreGui[LibName].Main.Visible = false
 	else
-		game.Players.LocalPlayer:WaitForChild("PlayerGui")[LibName].Main.Visible = true
-		Utility:TweenObject(game.Players.LocalPlayer:WaitForChild("PlayerGui")[LibName].Main, {Size = UDim2.new(0, 500, 0, 350)}, 0.2)
+		game.CoreGui[LibName].Main.Visible = true
+		Utility:TweenObject(game.CoreGui[LibName].Main, {Size = UDim2.new(0, 500, 0, 350)}, 0.2)
 		wait(0.2)
-		Utility:TweenObject(game.Players.LocalPlayer:WaitForChild("PlayerGui")[LibName].Main.Topbar, {Size = UDim2.new(1, 0, 0, 30)}, 0.2)
+		Utility:TweenObject(game.CoreGui[LibName].Main.Topbar, {Size = UDim2.new(1, 0, 0, 30)}, 0.2)
 	end
 end
 
@@ -179,7 +179,7 @@ function UI.CreateLib(libName, themeList)
 	local selectedTab 
 	libName = libName or "Library"
 	table.insert(UI, libName)
-	for i,v in pairs(game.Players.LocalPlayer:WaitForChild("PlayerGui"):GetChildren()) do
+	for i,v in pairs(game.CoreGui:GetChildren()) do
 		if v:IsA("ScreenGui") and v.Name == libName then
 			v:Destroy()
 		end
@@ -199,7 +199,7 @@ function UI.CreateLib(libName, themeList)
 	UI:DraggingEnabled(Topbar, Main)
 
 	GUI.Name = LibName
-	GUI.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+	GUI.Parent = game.CoreGui
 	GUI.ResetOnSpawn = false
 
 	Main.Name = "Main"
