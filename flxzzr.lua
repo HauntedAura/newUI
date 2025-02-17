@@ -53,14 +53,6 @@ function Utility:TweenObject(obj, properties, duration, ...)
 	tween:Create(obj, tweeninfo(duration, ...), properties):Play()
 end
 
-input.InputBegan:Connect(function(input, gpe)
-	if gpe then return end
-
-	if input.KeyCode == Enum.KeyCode.H then
-		UI:ToggleUI()
-	end
-end)
-
 local themes = {
 	Background = Color3.fromRGB(74, 99, 135),
 	LightContrast = Color3.fromRGB(36, 37, 43),
@@ -199,6 +191,14 @@ function UI.CreateLib(libName, themeList)
 	local Holder_2 = Instance.new("Frame")
 
 	UI:DraggingEnabled(Topbar, Main)
+
+	input.InputBegan:Connect(function(input, gpe)
+		if gpe then return end
+	
+		if input.KeyCode == Enum.KeyCode.H then
+			UI:ToggleUI()
+		end
+	end)
 
 	GUI.Name = LibName
 	GUI.Parent = game.CoreGui
