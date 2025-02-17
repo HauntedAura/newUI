@@ -119,23 +119,8 @@ local SettingsT = {
 
 local LibName = "flxzzrlib"
 
-function UI:ToggleUI()
-	if game.CoreGui[LibName].Main.Visible == true then
-		Utility:TweenObject(game.CoreGui[LibName].Main.Topbar, {Size = UDim2.new(1, 0, 1, 0)}, 0.2)
-		wait(0.2)
-		Utility:TweenObject(game.CoreGui[LibName].Main, {Size = UDim2.new(0, 500, 0, 0)}, 0.2)
-		wait(0.15)
-		game.CoreGui[LibName].Main.Visible = false
-	else
-		game.CoreGui[LibName].Main.Visible = true
-		Utility:TweenObject(game.CoreGui[LibName].Main, {Size = UDim2.new(0, 500, 0, 350)}, 0.2)
-		wait(0.2)
-		Utility:TweenObject(game.CoreGui[LibName].Main.Topbar, {Size = UDim2.new(1, 0, 0, 30)}, 0.2)
-	end
-end
-
 function UI.CreateLib(libName, themeList)
-	
+
 	if not themeList then
 		themeList = themes
 	end
@@ -182,12 +167,27 @@ function UI.CreateLib(libName, themeList)
 	local Title = Instance.new("TextLabel")
 	local UIListLayout = Instance.new("UIListLayout")
 	local Holder_2 = Instance.new("Frame")
+	
+	function UI:ToggleUI()
+		if Main.Visible == true then
+			Utility:TweenObject(Topbar, {Size = UDim2.new(1, 0, 1, 0)}, 0.2)
+			wait(0.2)
+			Utility:TweenObject(Main, {Size = UDim2.new(0, 500, 0, 0)}, 0.2)
+			wait(0.15)
+			Main.Visible = false
+		else
+			Main.Visible = true
+			Utility:TweenObject(Main, {Size = UDim2.new(0, 500, 0, 350)}, 0.2)
+			wait(0.2)
+			Utility:TweenObject(Topbar, {Size = UDim2.new(1, 0, 0, 30)}, 0.2)
+		end
+	end
 
 	UI:DraggingEnabled(Topbar, Main)
 
 	input.InputBegan:Connect(function(input, gpe)
 		if gpe then return end
-	
+
 		if input.KeyCode == Enum.KeyCode.H then
 			UI:ToggleUI()
 		end
@@ -589,7 +589,7 @@ function UI.CreateLib(libName, themeList)
 				local text = ButtontTitle
 
 				Button.MouseButton1Click:Connect(function()
-					
+
 					local clone = Button:Clone()
 
 					if debounce then
@@ -616,7 +616,7 @@ function UI.CreateLib(libName, themeList)
 						Button.ImageTransparency = 0
 						clone:Destroy()
 					end)
-					
+
 					text.TextSize = 0
 					Utility:TweenObject(Button.Title, {TextSize = 14}, 0.2)
 
@@ -625,7 +625,7 @@ function UI.CreateLib(libName, themeList)
 
 					debounce = false
 				end)
-				
+
 				coroutine.wrap(function()
 					while wait() do
 						Button.BackgroundColor3 = themeList.DarkContrast
@@ -635,14 +635,14 @@ function UI.CreateLib(libName, themeList)
 
 				return ButtonFunction
 			end
-			
+
 			function Elements:AddToggle(tname, callback)
 				local TogFunction = {}
 				tname = tname or "Toggle"
 				callback = callback or function() end
 				local toggled = false
 				table.insert(SettingsT, tname)
-				
+
 				local Toggle = Instance.new("TextButton")
 				local UICorner_2 = Instance.new("UICorner")
 				local tTitle = Instance.new("TextLabel")
@@ -650,7 +650,7 @@ function UI.CreateLib(libName, themeList)
 				local UICorner_3 = Instance.new("UICorner")
 				local Toggle_2 = Instance.new("Frame")
 				local UICorner_4 = Instance.new("UICorner")
-				
+
 				Toggle.Name = tname
 				Toggle.Parent = Section
 				Toggle.BackgroundColor3 = themeList.DarkContrast
@@ -708,16 +708,16 @@ function UI.CreateLib(libName, themeList)
 
 				UICorner_4.Parent = Toggle_2
 				UICorner_4.CornerRadius = UDim.new(0, 6)
-				
+
 				local debounce
-				
+
 				Toggle.MouseButton1Click:Connect(function()
 					if debounce then
 						return
 					end
 
 					debounce = true
-					
+
 					if toggled then
 						Utility:TweenObject(Toggle_2, {Size = UDim2.new(0, 18, 0, 13)}, 0.1)
 						Utility:TweenObject(Toggle_2, {Position = UDim2.new(0, 3, 0.5, 0)}, 0.1)
@@ -729,17 +729,17 @@ function UI.CreateLib(libName, themeList)
 						wait(0.1)
 						Utility:TweenObject(Toggle_2, {Size = UDim2.new(0, 21, 0, 16)}, 0.1)
 					end
-					
+
 					toggled = not toggled
 
 					callback(toggled)
-					
+
 					wait(0.1)
-					
+
 
 					debounce = false
 				end)
-				
+
 				coroutine.wrap(function()
 					while wait() do
 						Toggle.BackgroundColor3 = themeList.DarkContrast
@@ -748,20 +748,20 @@ function UI.CreateLib(libName, themeList)
 						Holder.BackgroundColor3 = themeList.LightContrast
 					end
 				end)()
-				
+
 				return TogFunction
 			end
-			
+
 			function Elements:AddSlider(sname, min, max, default, callback)
-				
+
 				local SliderFunction = {}
-				
+
 				sname = sname or "Slider"
 				max = max or 500
 				min = min or 16
 				default = default or min
 				callback = callback or function() end
-				
+
 				local Slider = Instance.new("TextButton")
 				local UICorner = Instance.new("UICorner")
 				local sTitle = Instance.new("TextLabel")
@@ -855,11 +855,11 @@ function UI.CreateLib(libName, themeList)
 				Value.Text = default
 				Value.TextColor3 = themeList.TextColor
 				Value.TextSize = 12.000
-				
+
 				local ms = game.Players.LocalPlayer:GetMouse()
 				local uis = game:GetService("UserInputService")
 				local btn = Slider
-				
+
 				function SliderFunction:SetValue(v)
 
 					if v == nil then
@@ -885,10 +885,10 @@ function UI.CreateLib(libName, themeList)
 					return tonumber(Value.Text)
 				end
 
-				
+
 				SliderFunction:SetValue(default)
 				local Connection = nil
-				
+
 				btn.MouseButton1Down:Connect(function()
 					if not Connection then
 						Connection = run.RenderStepped:Connect(function()
@@ -897,21 +897,21 @@ function UI.CreateLib(libName, themeList)
 					end
 
 				end)
-				
+
 				btn.MouseButton1Up:Connect(function()
 					if Connection then Connection:Disconnect() end
 					Connection = nil
 				end)
-				
+
 				btn.MouseLeave:Connect(function()
 					if Connection then Connection:Disconnect() end
 					Connection = nil
 				end)
-				
+
 				Value.FocusLost:Connect(function()
 					SliderFunction:SetValue(tonumber(Value.Text))
 				end)
-				
+
 				coroutine.wrap(function()
 					while wait() do
 						Slider.BackgroundColor3 = themeList.DarkContrast
@@ -922,17 +922,17 @@ function UI.CreateLib(libName, themeList)
 						Value.TextColor3 = themeList.TextColor
 					end
 				end)()
-				
+
 				return SliderFunction
-				
+
 			end
-			
+
 			function Elements:AddDropdown(dropname, list, callback)
 				local DropFunction = {}
 				dropname = dropname or "Dropdown"
 				list = list or {}
 				callback = callback or function() end   
-				
+
 				local Dropdown = Instance.new("Frame")
 				local dropCorner = Instance.new("UICorner")
 				local dropTitle = Instance.new("TextLabel")
@@ -940,7 +940,7 @@ function UI.CreateLib(libName, themeList)
 				local Icon = Instance.new("ImageLabel")
 				local List = Instance.new("ScrollingFrame")
 				local listLayout = Instance.new("UIListLayout")
-				
+
 				Dropdown.Name = dropname
 				Dropdown.Parent = Section
 				Dropdown.BackgroundColor3 = themeList.DarkContrast
@@ -1014,7 +1014,7 @@ function UI.CreateLib(libName, themeList)
 				listLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
 				listLayout.SortOrder = Enum.SortOrder.LayoutOrder
 				listLayout.Padding = UDim.new(0, 10)
-				
+
 				coroutine.wrap(function()
 					while wait() do
 						Dropdown.BackgroundColor3 = themeList.DarkContrast
@@ -1022,11 +1022,11 @@ function UI.CreateLib(libName, themeList)
 						Icon.ImageColor3 = themeList.TextColor
 					end
 				end)()
-				
+
 				local dropped
 
 				dropButton.MouseButton1Click:Connect(function()
-					
+
 					if dropped then
 						Utility:TweenObject(Dropdown, {Size = UDim2.new(1, -20, 0, 30)}, 0.2)
 						dropped = false
@@ -1034,15 +1034,15 @@ function UI.CreateLib(libName, themeList)
 						Utility:TweenObject(Dropdown, {Size = UDim2.new(1, -20, 0, 160)}, 0.2)
 						dropped = true
 					end
-					
+
 				end)
-				
+
 				for _, item in list do
 					local itemName = item or "Option"
-					
+
 					local item = Instance.new("ImageButton")
 					local itemTitle = Instance.new("TextLabel")
-					
+
 					item.Name = "Button"
 					item.Parent = List
 					item.AnchorPoint = Vector2.new(0.5, 0)
@@ -1071,13 +1071,13 @@ function UI.CreateLib(libName, themeList)
 					itemTitle.Text = itemName
 					itemTitle.TextColor3 = themeList.TextColor
 					itemTitle.TextSize = 12.000
-					
+
 					local itemtext = itemTitle
-					
+
 					item.MouseButton1Click:Connect(function()
-						
+
 						dropTitle.Text = itemName
-						
+
 						local clone = item:Clone()
 
 						callback(itemName)
@@ -1105,22 +1105,22 @@ function UI.CreateLib(libName, themeList)
 						wait(0.2)
 						Utility:TweenObject(Dropdown, {Size = UDim2.new(1, -20, 0, 30)}, 0.2)
 						dropped = false
-						
+
 						Utility:TweenObject(item.Title, {TextSize = 12}, 0.2)
-						
+
 					end)
-					
+
 					coroutine.wrap(function()
 						while wait() do
 							item.ImageColor3 = themeList.LightContrast
 							itemTitle.TextColor3 = themeList.TextColor
 						end
 					end)()
-					
+
 				end
 				return DropFunction
 			end
-			
+
 			return Elements
 		end
 		return Sections
