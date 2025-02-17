@@ -181,7 +181,7 @@ function UI.CreateLib(libName, themeList)
 	table.insert(UI, libName)
 	
 	for i,v in pairs(game.CoreGui:GetChildren()) do
-		if v:IsA("ScreenGui") and v.Name == LibName then
+		if v:IsA("ScreenGui") and v.Name == libName then
 			v:Destroy()
 		end
 	end
@@ -199,7 +199,7 @@ function UI.CreateLib(libName, themeList)
 
 	UI:DraggingEnabled(Topbar, Main)
 
-	GUI.Name = LibName
+	GUI.Name = libName
 	GUI.Parent = game.CoreGui
 	GUI.ResetOnSpawn = false
 
