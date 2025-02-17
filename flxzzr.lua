@@ -179,8 +179,9 @@ function UI.CreateLib(libName, themeList)
 	local selectedTab 
 	libName = libName or "Library"
 	table.insert(UI, libName)
+	
 	for i,v in pairs(game.CoreGui:GetChildren()) do
-		if v:IsA("ScreenGui") and v.Name == libName then
+		if v:IsA("ScreenGui") and v.Name == LibName then
 			v:Destroy()
 		end
 	end
