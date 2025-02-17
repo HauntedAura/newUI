@@ -120,15 +120,13 @@ local SettingsT = {
 local LibName = "flxzzrlib"
 
 function UI:ToggleUI()
-	if ToggledUI then
-		ToggledUI = false
+	if game.CoreGui[LibName].Main.Visible == true then
 		Utility:TweenObject(game.CoreGui[LibName].Main.Topbar, {Size = UDim2.new(1, 0, 1, 0)}, 0.2)
 		wait(0.2)
 		Utility:TweenObject(game.CoreGui[LibName].Main, {Size = UDim2.new(0, 500, 0, 0)}, 0.2)
 		wait(0.15)
 		game.CoreGui[LibName].Main.Visible = false
 	else
-		ToggledUI = true
 		game.CoreGui[LibName].Main.Visible = true
 		Utility:TweenObject(game.CoreGui[LibName].Main, {Size = UDim2.new(0, 500, 0, 350)}, 0.2)
 		wait(0.2)
