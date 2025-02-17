@@ -861,11 +861,11 @@ function UI.CreateLib(libName, themeList)
 				local uis = game:GetService("UserInputService")
 				local btn = Slider
 				
-				local function GetValue()
+								function SliderFunction:GetValue()
 					return tonumber(Value.Text)
 				end
 				
-				local function SetValue(v)
+				function SliderFunction:SetValue(v)
 
 					if v == nil then
 						local percentage = math.clamp((ms.X - SliderBack.AbsolutePosition.X) / (SliderBack.AbsoluteSize.X), 0, 1)
@@ -883,16 +883,16 @@ function UI.CreateLib(libName, themeList)
 						Fill.Size = UDim2.fromScale(((v - min) / (max - min)), 1)
 					end
 
-					callback(GetValue())
+					callback(SliderFunction:GetValue())
 				end
 				
-				SetValue(default)
+				SliderFunction:SetValue(default)
 				local Connection = nil
 				
 				btn.MouseButton1Down:Connect(function()
 					if not Connection then
 						Connection = run.RenderStepped:Connect(function()
-							SetValue()
+							SliderFunction:SetValue()
 						end)
 					end
 
@@ -909,7 +909,7 @@ function UI.CreateLib(libName, themeList)
 				end)
 				
 				Value.FocusLost:Connect(function()
-					SetValue(tonumber(Value.Text))
+					SliderFunction:SetValue(tonumber(Value.Text))
 				end)
 				
 				coroutine.wrap(function()
