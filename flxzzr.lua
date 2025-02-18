@@ -483,6 +483,7 @@ function UI.CreateLib(libName, themeList)
 				Container.ScrollBarImageColor3 = themeList.DarkContrast
 				Title.TextColor3 = themeList.TextColor
 				Selected.BackgroundColor3 = themeList.TextColor
+				Title_6.TextColor3 = themeList.TextColor
 			end
 		end)()
 
@@ -914,9 +915,9 @@ function UI.CreateLib(libName, themeList)
 				coroutine.wrap(function()
 					while wait() do
 						Slider.BackgroundColor3 = themeList.DarkContrast
-						Title.TextColor3 = themeList.TextColor
+						sTitle.TextColor3 = themeList.TextColor
 						SliderBack.ImageColor3 = themeList.LightContrast
-						Fill.BackgroundColor3 = themeList.TextColor
+						Fill.ImageColor3 = themeList.TextColor
 						ValHolder.BackgroundColor3 = themeList.LightContrast
 						Value.TextColor3 = themeList.TextColor
 					end
