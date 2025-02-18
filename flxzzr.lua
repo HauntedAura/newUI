@@ -310,10 +310,12 @@ function UI.CreateLib(libName, themeList)
 
 	coroutine.wrap(function()
 		while wait() do
-			Main.BackgroundColor3 = themeList.Background
-			Glow.BackgroundColor3 = themeList.Glow
-			Sidebar.BackgroundColor3 = themeList.DarkContrast
-			Topbar.BackgroundColor3 = themeList.Accent
+			Main.ImageColor3 = themeList.Background
+			Glow.ImageColor3 = themeList.Glow
+			Sidebar.ImageColor3 = themeList.DarkContrast
+			Topbar.ImageColor3 = themeList.Accent
+			Title.TextColor3 = themeList.TextColor
+			Menu.ImageColor3 = themeList.TextColor
 		end
 	end)()
 
@@ -322,7 +324,7 @@ function UI.CreateLib(libName, themeList)
 			themeList.Background = color
 		elseif prope == "LightContrast" then
 			themeList.LightContrast = color
-		elseif prope == "Header" then
+		elseif prope == "Accent" then
 			themeList.Accent = color
 		elseif prope == "TextColor" then
 			themeList.TextColor = color
@@ -480,6 +482,7 @@ function UI.CreateLib(libName, themeList)
 			while wait() do
 				Container.ScrollBarImageColor3 = themeList.DarkContrast
 				Title.TextColor3 = themeList.TextColor
+				Selected.BackgroundColor3 = themeList.TextColor
 			end
 		end)()
 
@@ -624,7 +627,7 @@ function UI.CreateLib(libName, themeList)
 
 				coroutine.wrap(function()
 					while wait() do
-						Button.BackgroundColor3 = themeList.DarkContrast
+						Button.ImageColor3 = themeList.DarkContrast
 						ButtontTitle.TextColor3 = themeList.TextColor
 					end
 				end)()
@@ -739,9 +742,9 @@ function UI.CreateLib(libName, themeList)
 				coroutine.wrap(function()
 					while wait() do
 						Toggle.BackgroundColor3 = themeList.DarkContrast
-						Title.TextColor3 = themeList.TextColor
+						tTitle.TextColor3 = themeList.TextColor
 						Toggle_2.BackgroundColor3 = themeList.TextColor
-						Holder.BackgroundColor3 = themeList.LightContrast
+						tHolder.BackgroundColor3 = themeList.LightContrast
 					end
 				end)()
 
@@ -912,7 +915,7 @@ function UI.CreateLib(libName, themeList)
 					while wait() do
 						Slider.BackgroundColor3 = themeList.DarkContrast
 						Title.TextColor3 = themeList.TextColor
-						SliderBack.BackgroundColor3 = themeList.LightContrast
+						SliderBack.ImageColor3 = themeList.LightContrast
 						Fill.BackgroundColor3 = themeList.TextColor
 						ValHolder.BackgroundColor3 = themeList.LightContrast
 						Value.TextColor3 = themeList.TextColor
@@ -1115,6 +1118,266 @@ function UI.CreateLib(libName, themeList)
 
 				end
 				return DropFunction
+			end
+			
+			function Elements:AddColorPicker(colText, defcolor, callback)
+				print(colText)
+				colText = colText or "ColorPicker"
+				callback = callback or function() end
+				defcolor = defcolor or Color3.fromRGB(1,1,1)
+				local h, s, v = Color3.toHSV(defcolor)
+				local ms = game.Players.LocalPlayer:GetMouse()
+				local colorOpened = false
+				
+				local ColorPicker = Instance.new("TextButton")
+				local UICorner = Instance.new("UICorner")
+				local Title = Instance.new("TextLabel")
+				local colorCurrent = Instance.new("Frame")
+				local UICorner_2 = Instance.new("UICorner")
+				local rgb = Instance.new("ImageButton")
+				local UICorner_3 = Instance.new("UICorner")
+				local rbgcircle = Instance.new("ImageLabel")
+				local circleGlow = Instance.new("ImageLabel")
+				local darkness = Instance.new("ImageButton")
+				local UICorner_4 = Instance.new("UICorner")
+				local darkcircle = Instance.new("ImageLabel")
+				local circleGlow_2 = Instance.new("ImageLabel")
+				
+				ColorPicker.Name = colText
+				ColorPicker.Parent = Section
+				ColorPicker.BackgroundColor3 = themeList.DarkContrast
+				ColorPicker.BorderColor3 = Color3.fromRGB(0, 0, 0)
+				ColorPicker.BorderSizePixel = 0
+				ColorPicker.Position = UDim2.new(0, 10, 0, 80)
+				ColorPicker.Size = UDim2.new(1, -20, 0, 30)
+				ColorPicker.ZIndex = 6
+				ColorPicker.AutoButtonColor = false
+				ColorPicker.Font = Enum.Font.Gotham
+				ColorPicker.Text = ""
+				ColorPicker.TextColor3 = Color3.fromRGB(255, 255, 255)
+				ColorPicker.TextSize = 12.000
+				ColorPicker.ClipsDescendants = true
+
+				UICorner.Parent = ColorPicker
+				UICorner.CornerRadius = UDim.new(0, 8)
+
+				Title.Name = "Title"
+				Title.Parent = ColorPicker
+				Title.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				Title.BackgroundTransparency = 1.000
+				Title.BorderColor3 = Color3.fromRGB(0, 0, 0)
+				Title.BorderSizePixel = 0
+				Title.Position = UDim2.new(0, 10, 0, 0)
+				Title.Size = UDim2.new(0.5, -10, 0, 30)
+				Title.ZIndex = 7
+				Title.Font = Enum.Font.Gotham
+				Title.Text = colText
+				Title.TextColor3 = themeList.TextColor
+				Title.TextSize = 12.000
+				Title.TextXAlignment = Enum.TextXAlignment.Left
+
+				colorCurrent.Name = "Preview"
+				colorCurrent.Parent = ColorPicker
+				colorCurrent.AnchorPoint = Vector2.new(1, 0)
+				colorCurrent.BackgroundColor3 = defcolor
+				colorCurrent.BorderColor3 = Color3.fromRGB(0, 0, 0)
+				colorCurrent.BorderSizePixel = 0
+				colorCurrent.Position = UDim2.new(1, -5, 0, 5)
+				colorCurrent.Size = UDim2.new(0, 50, 0, 20)
+				colorCurrent.ZIndex = 7
+
+				UICorner_2.Parent = colorCurrent
+				UICorner_2.CornerRadius = UDim.new(0, 8)
+
+				rgb.Name = "rgb"
+				rgb.Parent = ColorPicker
+				rgb.Active = false
+				rgb.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+				rgb.BorderColor3 = Color3.fromRGB(0, 0, 0)
+				rgb.BorderSizePixel = 0
+				rgb.Position = UDim2.new(0, 5, 0, 35)
+				rgb.Selectable = false
+				rgb.Size = UDim2.new(0, 200, 0, 100)
+				rgb.ZIndex = 9
+				rgb.Image = "rbxassetid://6523286724"
+				rgb.Visible = false
+				UICorner_3.Parent = rgb
+				UICorner_3.CornerRadius = UDim.new(0, 8)
+
+				rbgcircle.Name = "rbgcircle"
+				rbgcircle.Parent = rgb
+				rbgcircle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				rbgcircle.BackgroundTransparency = 1.000
+				rbgcircle.BorderColor3 = Color3.fromRGB(0, 0, 0)
+				rbgcircle.BorderSizePixel = 0
+				rbgcircle.Position = UDim2.new(0.439999998, 0, 0.430000007, 0)
+				rbgcircle.Size = UDim2.new(0, 14, 0, 14)
+				rbgcircle.ZIndex = 11
+				rbgcircle.Image = "rbxassetid://92809207715946"
+				rbgcircle.ImageColor3 = Color3.fromRGB(0, 0, 0)
+
+				circleGlow.Name = "circleGlow"
+				circleGlow.Parent = rbgcircle
+				circleGlow.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				circleGlow.BackgroundTransparency = 1.000
+				circleGlow.BorderColor3 = Color3.fromRGB(0, 0, 0)
+				circleGlow.BorderSizePixel = 0
+				circleGlow.Position = UDim2.new(0, -4, 0, -4)
+				circleGlow.Size = UDim2.new(1, 8, 1, 8)
+				circleGlow.ZIndex = 10
+				circleGlow.Image = "rbxassetid://77883088798659"
+				circleGlow.ImageColor3 = Color3.fromRGB(0, 0, 0)
+
+				darkness.Name = "darkness"
+				darkness.Parent = ColorPicker
+				darkness.Active = false
+				darkness.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				darkness.BorderColor3 = Color3.fromRGB(0, 0, 0)
+				darkness.BorderSizePixel = 0
+				darkness.Position = UDim2.new(0, 220, 0, 35)
+				darkness.Selectable = false
+				darkness.Size = UDim2.new(0, 20, 0, 100)
+				darkness.ZIndex = 9
+				darkness.Image = "rbxassetid://6523291212"
+				darkness.Visible = false
+
+				UICorner_4.Parent = darkness
+				UICorner_4.CornerRadius = UDim.new(0, 8)
+
+				darkcircle.Name = "rbgcircle"
+				darkcircle.Parent = darkness
+				darkcircle.AnchorPoint = Vector2.new(0.5, 0)
+				darkcircle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				darkcircle.BackgroundTransparency = 1.000
+				darkcircle.BorderColor3 = Color3.fromRGB(0, 0, 0)
+				darkcircle.BorderSizePixel = 0
+				darkcircle.Position = UDim2.new(0.5, 0, 0.430000007, 0)
+				darkcircle.Size = UDim2.new(0, 14, 0, 14)
+				darkcircle.ZIndex = 11
+				darkcircle.Image = "rbxassetid://92809207715946"
+				darkcircle.ImageColor3 = Color3.fromRGB(0, 0, 0)
+
+				circleGlow_2.Name = "circleGlow"
+				circleGlow_2.Parent = darkcircle
+				circleGlow_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				circleGlow_2.BackgroundTransparency = 1.000
+				circleGlow_2.BorderColor3 = Color3.fromRGB(0, 0, 0)
+				circleGlow_2.BorderSizePixel = 0
+				circleGlow_2.Position = UDim2.new(0, -4, 0, -4)
+				circleGlow_2.Size = UDim2.new(1, 8, 1, 8)
+				circleGlow_2.ZIndex = 10
+				circleGlow_2.Image = "rbxassetid://77883088798659"
+				circleGlow_2.ImageColor3 = Color3.fromRGB(0, 0, 0)
+				
+				ColorPicker.MouseButton1Click:Connect(function()
+					if colorOpened then
+						colorOpened = false
+						
+						Utility:TweenObject(ColorPicker, {Size = UDim2.new(1, -20, 0, 30)}, 0.2)
+						rgb.Visible = false
+						darkness.Visible = false
+					else
+						colorOpened = true
+						
+						Utility:TweenObject(ColorPicker, {Size = UDim2.new(1, -20, 0, 140)}, 0.2)
+						rgb.Visible = true
+						darkness.Visible = true
+					end
+				end)
+				
+				local plr = game.Players.LocalPlayer
+				local mouse = plr:GetMouse()
+				local uis = game:GetService('UserInputService')
+				local rs = game:GetService("RunService")
+				local colorpicker = false
+				local darknesss = false
+				local dark = false
+				local rgb = rgb    
+				local dark = darkness    
+				local cursor = rbgcircle
+				local cursor2 = darkcircle
+				local color = {1,1,1}
+				local rainbow = false
+				local rainbowconnection
+				local counter = 0
+				--
+				local function zigzag(X) return math.acos(math.cos(X*math.pi))/math.pi end
+				counter = 0
+				local function mouseLocation()
+					return plr:GetMouse()
+				end
+				local function cp()
+					if colorpicker then
+						local ml = mouseLocation()
+						local x,y = ml.X - rgb.AbsolutePosition.X,ml.Y - rgb.AbsolutePosition.Y
+						local maxX,maxY = rgb.AbsoluteSize.X,rgb.AbsoluteSize.Y
+						if x<0 then x=0 end
+						if x>maxX then x=maxX end
+						if y<0 then y=0 end
+						if y>maxY then y=maxY end
+						x = x/maxX
+						y = y/maxY
+						local cx = cursor.AbsoluteSize.X/2
+						local cy = cursor.AbsoluteSize.Y/2
+						cursor.Position = UDim2.new(x,-cx,y,-cy)
+						color = {1-x,1-y,color[3]}
+						local realcolor = Color3.fromHSV(color[1],color[2],color[3])
+						colorCurrent.BackgroundColor3 = realcolor
+						callback(realcolor)
+					end
+					if darknesss then
+						local ml = mouseLocation()
+						local y = ml.Y - dark.AbsolutePosition.Y
+						local maxY = dark.AbsoluteSize.Y
+						if y<0 then y=0 end
+						if y>maxY then y=maxY end
+						y = y/maxY
+						local cy = cursor2.AbsoluteSize.Y/2
+						cursor2.Position = UDim2.new(0.5,0,y,-cy)
+						cursor2.ImageColor3 = Color3.fromHSV(0,0,y)
+						color = {color[1],color[2],1-y}
+						local realcolor = Color3.fromHSV(color[1],color[2],color[3])
+						colorCurrent.BackgroundColor3 = realcolor
+						callback(realcolor)
+					end
+				end
+
+				local function setcolor(tbl)
+					local cx = cursor.AbsoluteSize.X/2
+					local cy = cursor.AbsoluteSize.Y/2
+					color = {tbl[1],tbl[2],tbl[3]}
+					cursor.Position = UDim2.new(color[1],-cx,color[2]-1,-cy)
+					cursor2.Position = UDim2.new(0.5,0,color[3]-1,-cy)
+					local realcolor = Color3.fromHSV(color[1],color[2],color[3])
+					colorCurrent.BackgroundColor3 = realcolor
+				end
+				local function setrgbcolor(tbl)
+					local cx = cursor.AbsoluteSize.X/2
+					local cy = cursor.AbsoluteSize.Y/2
+					color = {tbl[1],tbl[2],color[3]}
+					cursor.Position = UDim2.new(color[1],-cx,color[2]-1,-cy)
+					local realcolor = Color3.fromHSV(color[1],color[2],color[3])
+					colorCurrent.BackgroundColor3 = realcolor
+					callback(realcolor)
+				end
+				
+				mouse.Move:connect(cp)
+				rgb.MouseButton1Down:connect(function()colorpicker=true end)
+				dark.MouseButton1Down:connect(function()darknesss=true end)
+				uis.InputEnded:Connect(function(input)
+					if input.UserInputType.Name == 'MouseButton1' then
+						if darknesss then darknesss = false end
+						if colorpicker then colorpicker = false end
+					end
+				end)
+				setcolor({h,s,v})
+				
+				coroutine.wrap(function()
+					while wait() do
+						ColorPicker.BackgroundColor3 = themeList.DarkContrast
+						Title.TextColor3 = themeList.TextColor
+					end
+				end)()
 			end
 
 			return Elements
